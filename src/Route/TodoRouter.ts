@@ -34,7 +34,7 @@ todoRouter.put("/:todo_id", getUserFromToken,async (req: Request, res: Response)
 });
 
 // Delete an existing todo for specific user
-todoRouter.delete("/:todo_id", async (req: Request, res: Response) => {
+todoRouter.delete("/:todo_id", getUserFromToken,async (req: Request, res: Response) => {
   try {
     const { todo_id } = req.params;
     const user_id = req.body.user._id;
@@ -60,3 +60,14 @@ todoRouter.get(
     }
   }
 );
+
+// Get all todo for specific user
+todoRouter.get("/", getUserFromToken, async (req: Request, res: Response) => {
+  try {
+    const user_id = req.body.user._id; // Assuming user_id is provided in the request body
+    const todos = await todoController.getAllTodos(user_id);
+    res.json({ todos });
+  } catch (error) {
+    ocError.sendError(res, error);
+  }
+});

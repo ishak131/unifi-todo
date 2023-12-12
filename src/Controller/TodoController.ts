@@ -64,6 +64,11 @@ class TodoController {
     return todo;
   }
 
+  // Get all todos for specific user
+  async getAllTodos(user_id: string): Promise<TodoModelInterface[]> {
+    const todos = await todoRepository.getAllTodos(user_id);
+    return todos;
+  }
 }
 
 export const todoController = new TodoController();
